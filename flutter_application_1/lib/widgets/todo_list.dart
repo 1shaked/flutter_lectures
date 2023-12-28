@@ -50,6 +50,7 @@ class _TodoListState extends State<TodoList> {
                       height: 200,
                       child: selectedIndex != index
                           ? Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(todos[index]),
                                 ElevatedButton(
@@ -58,7 +59,7 @@ class _TodoListState extends State<TodoList> {
                                       todos.removeAt(index);
                                     });
                                   },
-                                  child: Text('delete'),
+                                  child: const Text('delete'),
                                 ),
                                 ElevatedButton(
                                     onPressed: () {
