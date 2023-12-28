@@ -13,27 +13,44 @@ class _TodoListState extends State<TodoList> {
     'TODO - 2',
     'TODO - 3',
   ];
+  String newTodo = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         padding: const EdgeInsets.all(16.0),
         margin: const EdgeInsets.all(16.0),
-        child: Container(
-          width: 200,
-          height: 200,
-          color: Colors.cyanAccent,
-          child: ListView.builder(
-            itemBuilder: ((context, index) => Text(todos[index])),
-            itemCount: todos.length,
-          ),
+        child: Column(
+          children: [
+            TextField(
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'New Todo',
+              ),
+              onChanged: (text) => {
+                setState(() {
+                  newTodo = text;
+                })
+              },
+            ),
+            Text(newTodo),
+            Container(
+              width: 200,
+              height: 200,
+              color: Colors.cyanAccent,
+              child: ListView.builder(
+                itemBuilder: ((context, index) => Text(todos[index])),
+                itemCount: todos.length,
+              ),
+            ),
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => {
           setState(() {
             // $index
-            todos.add('todo ➡️ ${todos.length + 1} ');
+            todos.add('todo ➡️ $newTodo');
           })
         },
         child: const Icon(Icons.add),
