@@ -21,6 +21,8 @@ class _TodoListState extends State<TodoList> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        width: 800,
+        height: 900,
         padding: const EdgeInsets.all(16.0),
         margin: const EdgeInsets.all(16.0),
         child: Column(
@@ -40,54 +42,61 @@ class _TodoListState extends State<TodoList> {
             Text(newTodo),
             Container(
               width: 400,
-              height: 500,
+              height: 600,
               color: Colors.cyanAccent,
               child: ListView.builder(
-                itemBuilder: ((context, index) => selectedIndex == index
-                    ? Row(
-                        children: [
-                          Text(todos[index]),
-                          ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                todos.removeAt(index);
-                              });
-                            },
-                            child: Text('delete'),
-                          ),
-                          ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  selectedIndex = index;
-                                  editTodo = todos[index];
-                                });
-                              },
-                              child: Icon(Icons.edit))
-                        ],
-                      )
-                    : Row(
-                        children: [
-                          TextField(
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: 'Edited todo',
+                itemBuilder: ((context, index) => SizedBox(
+                      width: 100,
+                      height: 200,
+                      child: selectedIndex != index
+                          ? Row(
+                              children: [
+                                Text(todos[index]),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      todos.removeAt(index);
+                                    });
+                                  },
+                                  child: Text('delete'),
+                                ),
+                                ElevatedButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        selectedIndex = index;
+                                        editTodo = todos[index];
+                                      });
+                                    },
+                                    child: Icon(Icons.edit))
+                              ],
+                            )
+                          : Row(
+                              children: [
+                                SizedBox(
+                                  width: 200,
+                                  child: TextField(
+                                    decoration: const InputDecoration(
+                                      border: OutlineInputBorder(),
+                                      labelText: 'Edited todo',
+                                    ),
+                                    onChanged: (v) {
+                                      setState(() {
+                                        editTodo = v;
+                                      });
+                                    },
+                                  ),
+                                ),
+                                ElevatedButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        todos[index] = editTodo;
+                                        selectedIndex = -1;
+                                      });
+                                    },
+                                    child: Icon(Icons.save))
+                              ],
                             ),
-                            onChanged: (v) {
-                              setState(() {
-                                editTodo = v;
-                              });
-                            },
-                          ),
-                          ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  todos[index] = editTodo;
-                                  selectedIndex = -1;
-                                });
-                              },
-                              child: Icon(Icons.save))
-                        ],
-                      )),
+                    )),
                 itemCount: todos.length,
               ),
             ),
