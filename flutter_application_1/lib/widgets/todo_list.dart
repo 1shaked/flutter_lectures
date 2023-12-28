@@ -14,6 +14,9 @@ class _TodoListState extends State<TodoList> {
     'TODO - 3',
   ];
   String newTodo = '';
+
+  int selectedIndex = -1;
+  String editTodo = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,22 +39,55 @@ class _TodoListState extends State<TodoList> {
             ),
             Text(newTodo),
             Container(
-              width: 200,
-              height: 200,
+              width: 400,
+              height: 500,
               color: Colors.cyanAccent,
               child: ListView.builder(
-                itemBuilder: ((context, index) => Row(
-                      children: [
-                        Text(todos[index]),
-                        ElevatedButton(
+                itemBuilder: ((context, index) => selectedIndex == index
+                    ? Row(
+                        children: [
+                          Text(todos[index]),
+                          ElevatedButton(
                             onPressed: () {
                               setState(() {
                                 todos.removeAt(index);
                               });
                             },
-                            child: Text('delete'))
-                      ],
-                    )),
+                            child: Text('delete'),
+                          ),
+                          ElevatedButton(
+                              onPressed: () {
+                                setState(() {
+                                  selectedIndex = index;
+                                  editTodo = todos[index];
+                                });
+                              },
+                              child: Icon(Icons.edit))
+                        ],
+                      )
+                    : Row(
+                        children: [
+                          TextField(
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Edited todo',
+                            ),
+                            onChanged: (v) {
+                              setState(() {
+                                editTodo = v;
+                              });
+                            },
+                          ),
+                          ElevatedButton(
+                              onPressed: () {
+                                setState(() {
+                                  todos[index] = editTodo;
+                                  selectedIndex = -1;
+                                });
+                              },
+                              child: Icon(Icons.save))
+                        ],
+                      )),
                 itemCount: todos.length,
               ),
             ),
