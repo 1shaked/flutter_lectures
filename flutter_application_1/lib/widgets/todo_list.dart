@@ -21,6 +21,7 @@ class _TodoListState extends State<TodoList> {
         padding: const EdgeInsets.all(16.0),
         margin: const EdgeInsets.all(16.0),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
               decoration: const InputDecoration(
@@ -39,7 +40,18 @@ class _TodoListState extends State<TodoList> {
               height: 200,
               color: Colors.cyanAccent,
               child: ListView.builder(
-                itemBuilder: ((context, index) => Text(todos[index])),
+                itemBuilder: ((context, index) => Row(
+                      children: [
+                        Text(todos[index]),
+                        ElevatedButton(
+                            onPressed: () {
+                              setState(() {
+                                todos.removeAt(index);
+                              });
+                            },
+                            child: Text('delete'))
+                      ],
+                    )),
                 itemCount: todos.length,
               ),
             ),
